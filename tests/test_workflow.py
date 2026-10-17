@@ -57,7 +57,7 @@ def test_manifest_changed_after_submission_blocks_approval(env):
     pipeline.submit(env.batch, "dina.maker")
     mf = pipeline.batch_dir(env.batch) / "manifest.json"
     data = json.loads(mf.read_text())
-    data[0]["to_email"] = "attacker@gmail.com"
+    data[0]["to_email"] = "attacker@gmail.example"
     mf.write_text(json.dumps(data))
     with pytest.raises(pipeline.WorkflowError):
         pipeline.approve(env.batch, "sari.supervisor")
@@ -94,7 +94,7 @@ def test_no_raw_pii_in_logs_or_reports(env):
 
 def test_sender_control_rejects_external_mailbox(monkeypatch):
     cfg = json.loads(json.dumps(mailer.settings()))
-    cfg["sender"]["official_mailbox"] = "someone@gmail.com"
+    cfg["sender"]["official_mailbox"] = "someone@gmail.example"
     monkeypatch.setattr(mailer, "settings", lambda: cfg)
     assert mailer.check_sender()
 

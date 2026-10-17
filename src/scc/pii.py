@@ -20,6 +20,8 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 COMMON_EMAIL_DOMAINS = [
     "gmail.com", "yahoo.com", "yahoo.co.id", "outlook.com", "hotmail.com",
     "icloud.com", "ymail.com", "live.com",
+    # synthetic-data equivalents on the reserved .example TLD
+    "gmail.example", "yahoo.example", "outlook.example",
 ]
 
 

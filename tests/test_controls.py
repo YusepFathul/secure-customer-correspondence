@@ -59,11 +59,11 @@ def test_ambiguous_file_name_holds_both_customers(env):
 
 def test_recipient_and_branch_mistakes(env):
     send = env.send_list.copy()
-    send.loc[0, "email"] = "andi.old@gmail.com"                                   # stale email
+    send.loc[0, "email"] = "andi.old@gmail.example"                                   # stale email
     send.loc[1, "branch_code"] = "SBY"                                             # wrong branch
-    send.loc[2, "cc_override"] = "sby.staff@gmail.com"                             # manual external CC
-    send.loc[3, "email"] = "dewi.kusuma@gmail.com; someone.else@gmail.com"         # two recipients
-    send.loc[4, "email"] = "eko.pratama@gmial.com"                                 # domain typo
+    send.loc[2, "cc_override"] = "sby.staff@gmail.example"                             # manual external CC
+    send.loc[3, "email"] = "dewi.kusuma@gmail.example; someone.else@gmail.example"         # two recipients
+    send.loc[4, "email"] = "eko.pratama@gmial.example"                                 # domain typo
     env.save_send(send)
     results, _ = run(env)
     c = env.customers

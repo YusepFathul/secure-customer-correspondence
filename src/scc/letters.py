@@ -46,10 +46,19 @@ def render_letter(path: Path, letter: dict) -> None:
     x = 22 * mm
     y = h - 25 * mm
 
+    # Watermark: every synthetic letter is visibly marked as an example
+    c.saveState()
+    c.setFillColorRGB(0.88, 0.88, 0.88)
+    c.setFont("Helvetica-Bold", 96)
+    c.translate(w / 2, h / 2)
+    c.rotate(35)
+    c.drawCentredString(0, -30, "EXAMPLE")
+    c.restoreState()
+
     c.setFont("Helvetica-Bold", 15)
     c.drawString(x, y, cfg["company"]["short_name"])
     c.setFont("Helvetica", 8)
-    c.drawString(x, y - 11, "Fictional insurer - synthetic document for a portfolio project")
+    c.drawString(x, y - 11, "EXAMPLE - fictional insurer, synthetic document for a portfolio project")
     c.drawRightString(w - x, y, f"Ref: {letter['ref_no']}")
     c.drawRightString(w - x, y - 11, f"Date: {letter['letter_date']}")
     c.line(x, y - 18, w - x, y - 18)
@@ -86,7 +95,7 @@ def render_letter(path: Path, letter: dict) -> None:
     c.drawString(x, y, "Customer Correspondence Team")
 
     c.setFont("Helvetica", 7)
-    c.drawString(x, 15 * mm, "CONFIDENTIAL - contains personal data. All names, numbers and addresses are synthetic.")
+    c.drawString(x, 15 * mm, "EXAMPLE ONLY - all names, NIK, numbers, addresses and emails are synthetic.")
     c.showPage()
     c.save()
 

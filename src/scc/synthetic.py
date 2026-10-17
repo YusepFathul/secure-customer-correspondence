@@ -35,7 +35,8 @@ LAST = ["Santoso", "Wijaya", "Saputra", "Lestari", "Pratama", "Hidayat", "Nugroh
         "Simanjuntak", "Sitompul", "Tanjung", "Daeng", "Pane", "Marpaung"]
 STREETS = ["Jl. Merdeka", "Jl. Sudirman", "Jl. Diponegoro", "Jl. Gatot Subroto", "Jl. Ahmad Yani",
            "Jl. Pahlawan", "Jl. Veteran", "Jl. Pemuda", "Jl. Kartini", "Jl. Cendana"]
-DOMAINS = ["gmail.com", "yahoo.co.id", "outlook.com", "gmail.com", "gmail.com"]
+# Every address uses the reserved .example TLD (RFC 2606): it can never be delivered to a real person
+DOMAINS = ["gmail.example", "yahoo.example", "outlook.example", "gmail.example", "gmail.example"]
 
 BATCHES = ["2026-08", "2026-09", "2026-10"]
 BATCH_SIZE = 150
@@ -85,7 +86,7 @@ def build_master(rng) -> tuple[pd.DataFrame, pd.DataFrame]:
         used_policies.add(policy)
         email = f"{first.lower()}.{last.lower()}{rng.integers(1, 999)}@{DOMAINS[rng.integers(0, len(DOMAINS))]}"
         while email in used_emails:
-            email = f"{first.lower()}.{last.lower()}{rng.integers(1, 9999)}@gmail.com"
+            email = f"{first.lower()}.{last.lower()}{rng.integers(1, 9999)}@gmail.example"
         used_emails.add(email)
         rows.append({
             "policy_no": policy,
@@ -174,7 +175,7 @@ def generate(clean: bool = True) -> dict:
             send.at[i, "email"] = old.replace("@", ".old@")
             add_truth(i, "STALE_EMAIL")
         for i in plan["EMAIL_DOMAIN_TYPO"]:
-            typo = send.at[i, "email"].split("@")[0] + "@gmial.com"
+            typo = send.at[i, "email"].split("@")[0] + "@gmial.example"
             send.at[i, "email"] = typo  # keyed in wrongly on the send list
             add_truth(i, "EMAIL_DOMAIN_TYPO")
         for i in plan["WRONG_BRANCH_CODE"]:
@@ -182,7 +183,7 @@ def generate(clean: bool = True) -> dict:
             send.at[i, "branch_code"] = next(c for c, _, _ in BRANCHES if c != current)
             add_truth(i, "WRONG_BRANCH_CODE")
         for i in plan["EXTERNAL_CC_OVERRIDE"]:
-            send.at[i, "cc_override"] = f"{send.at[i, 'branch_code'].lower()}.staff@gmail.com"
+            send.at[i, "cc_override"] = f"{send.at[i, 'branch_code'].lower()}.staff@gmail.example"
             add_truth(i, "EXTERNAL_CC_OVERRIDE")
         for i in plan["MULTI_RECIPIENT"]:
             other = customers.sample(1, random_state=int(rng.integers(0, 10**6))).iloc[0]["email"]

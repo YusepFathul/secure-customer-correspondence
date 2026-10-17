@@ -17,11 +17,11 @@ BATCH = "2099-01"
 
 CUSTOMERS = [
     # policy, name, nik, dob, email, branch
-    ("7700000001", "Andi Santoso", "3171010101800001", "1980-01-01", "andi.santoso@gmail.com", "JKT"),
-    ("7700000002", "Budi Wijaya", "3273024502850002", "1985-02-05", "budi.wijaya@yahoo.co.id", "BDG"),
-    ("7700000003", "Citra Lestari", "3578034303900003", "1990-03-03", "citra.lestari@outlook.com", "SBY"),
-    ("7700000004", "Dewi Kusuma", "3273044404880004", "1988-04-04", "dewi.kusuma@gmail.com", "BDG"),
-    ("7700000005", "Eko Pratama", "1271050505750005", "1975-05-05", "eko.pratama@gmail.com", "MDN"),
+    ("7700000001", "Andi Santoso", "3171010101800001", "1980-01-01", "andi.santoso@gmail.example", "JKT"),
+    ("7700000002", "Budi Wijaya", "3273024502850002", "1985-02-05", "budi.wijaya@yahoo.example", "BDG"),
+    ("7700000003", "Citra Lestari", "3578034303900003", "1990-03-03", "citra.lestari@outlook.example", "SBY"),
+    ("7700000004", "Dewi Kusuma", "3273044404880004", "1988-04-04", "dewi.kusuma@gmail.example", "BDG"),
+    ("7700000005", "Eko Pratama", "1271050505750005", "1975-05-05", "eko.pratama@gmail.example", "MDN"),
 ]
 BRANCHES = [("JKT", "Jakarta Head Office"), ("BDG", "Bandung"), ("SBY", "Surabaya"), ("MDN", "Medan")]
 

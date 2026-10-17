@@ -16,7 +16,9 @@ This project redesigns that process so it is **faster, leak-proof by design, and
 | **Governance** | System-enforced maker-checker, kill switch, append-only audit trail, monthly control report, risk & control matrix, RACI, SOP and incident playbook |
 
 > All data is **synthetic** (a fictional insurer, "Nusantara Life"). No real customer, employer or
-> production data is used. No real email is sent — emails are written to a local outbox.
+> production data is used. Every email address — customers, branches, sender — uses the reserved
+> `.example` domain (RFC 2606), e.g. `budi.wijaya123@gmail.example`, so nothing can ever reach a real
+> person. Every letter is watermarked **EXAMPLE**, and emails are written to a local outbox, not sent.
 
 ---
 

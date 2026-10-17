@@ -10,7 +10,7 @@ def test_valid_nik_structure():
 
 def test_masking_keeps_only_edges():
     assert mask_nik("3273024502850002") == "3273********0002"
-    assert mask_email("budi.wijaya@yahoo.co.id") == "b***@yahoo.co.id"
+    assert mask_email("budi.wijaya@yahoo.example") == "b***@yahoo.example"
 
 
 def test_nik_inside_file_name_is_redacted():
@@ -23,3 +23,5 @@ def test_domain_typo_detection():
     assert domain_typo("someone@gmial.com") == "gmail.com"
     assert domain_typo("someone@gmail.com") is None
     assert domain_typo("someone@nusantaralife.example") is None
+    assert domain_typo("someone@gmial.example") == "gmail.example"
+    assert domain_typo("someone@yahoo.example") is None
