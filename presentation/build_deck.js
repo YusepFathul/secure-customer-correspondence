@@ -260,7 +260,7 @@ async function icon(Comp, hex, size = 256) {
   card(s, 0.6, 4.95, 12.1, 1.45, "example card");
   s.addText([
     { text: "Example  ", options: { bold: true, color: C.accent4 } },
-    { text: "Budi, Bandung branch: To budi@..., CC branch.bdg@... only. The attachment contains Budi's own policy and NIK and opens only with his date of birth. Surabaya never receives anything about Budi.", options: { color: C.text1 } },
+    { text: "Budi W*****, Bandung branch: To customer.0002@gmail.example, CC branch.bdg@nusantaralife.example only. The attachment holds Budi's own policy and masked NIK and opens only with his date of birth. Surabaya never receives anything about Budi.", options: { color: C.text1 } },
   ], { x: 0.9, y: 5.05, w: 11.5, h: 1.25, fontSize: 15, margin: 0, valign: "middle", isTextBox: true, objectName: "example text" });
   s.addNotes("Steps one to three protect the data, four and five are the governance gate, six is the efficiency gain, seven produces the evidence. The branch CC is never typed by a person: it is looked up from branch master data using the customer's own branch.");
 

@@ -14,6 +14,7 @@ import pandas as pd
 
 from . import DATA_DIR, settings
 from .letters import render_letter
+from .pii import mask_name, mask_nik, mask_street
 
 BRANCHES = [
     # code, name, province code used for NIK
@@ -61,6 +62,7 @@ DEFECTS = {
 
 
 def _nik(rng, province: str, dob: date, female: bool) -> str:
+    """Full synthetic NIK. It is masked before it is stored anywhere (see build_master)."""
     city = f"{rng.integers(1, 30):02d}"
     district = f"{rng.integers(1, 40):02d}"
     day = dob.day + (40 if female else 0)
@@ -74,7 +76,7 @@ def build_master(rng) -> tuple[pd.DataFrame, pd.DataFrame]:
         [{"branch_code": c, "branch_name": n, "branch_email": f"branch.{c.lower()}@{domain}"}
          for c, n, _ in BRANCHES]
     )
-    rows, used_policies, used_emails = [], set(), set()
+    rows, used_policies, used_emails, used_niks = [], set(), set(), set()
     for _ in range(N_CUSTOMERS):
         code, bname, prov = BRANCHES[rng.integers(0, len(BRANCHES))]
         first, last = FIRST[rng.integers(0, len(FIRST))], LAST[rng.integers(0, len(LAST))]
@@ -84,18 +86,22 @@ def build_master(rng) -> tuple[pd.DataFrame, pd.DataFrame]:
         while policy in used_policies:
             policy = f"77{rng.integers(0, 10**8):08d}"
         used_policies.add(policy)
-        email = f"{first.lower()}.{last.lower()}{rng.integers(1, 999)}@{DOMAINS[rng.integers(0, len(DOMAINS))]}"
-        while email in used_emails:
-            email = f"{first.lower()}.{last.lower()}{rng.integers(1, 9999)}@gmail.example"
+        # Email never contains the name: customer.0001@gmail.example
+        email = f"customer.{len(rows) + 1:04d}@{DOMAINS[rng.integers(0, len(DOMAINS))]}"
         used_emails.add(email)
+        # Only masked personal data is ever stored: 3273********0002, Budi W*****, Jl. M****** No. **
+        nik = mask_nik(_nik(rng, prov, dob, female))
+        while nik in used_niks:
+            nik = mask_nik(_nik(rng, prov, dob, female))
+        used_niks.add(nik)
         rows.append({
             "policy_no": policy,
-            "name": f"{first} {last}",
-            "nik": _nik(rng, prov, dob, female),
+            "name": mask_name(f"{first} {last}"),
+            "nik": nik,
             "dob": dob.isoformat(),
             "email": email,
             "branch_code": code,
-            "address": f"{STREETS[rng.integers(0, len(STREETS))]} No. {rng.integers(1, 200)}, {bname}",
+            "address": f"{mask_street(STREETS[rng.integers(0, len(STREETS))])} No. **, {bname}",
         })
     return pd.DataFrame(rows), branches
 
@@ -217,7 +223,8 @@ def generate(clean: bool = True) -> dict:
                 add_truth(i, "AMBIGUOUS_FILENAME")
                 add_truth(partner, "AMBIGUOUS_FILENAME_PARTNER_HELD", "DP-03")
             if i in plan["NIK_IN_FILENAME"]:
-                fname = f"{row['letter_type']}_{row['policy_no']}_{cust['nik']}_{batch.replace('-', '')}.pdf"
+                nik_in_name = cust["nik"].replace("*", "x")  # '*' is not allowed in Windows file names
+                fname = f"{row['letter_type']}_{row['policy_no']}_NIK{nik_in_name}_{batch.replace('-', '')}.pdf"
                 add_truth(i, "NIK_IN_FILENAME")
 
             render_letter(ldir / fname, payload)

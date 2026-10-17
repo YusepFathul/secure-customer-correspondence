@@ -1,43 +1,43 @@
 {
  "kpi": {
   "customers": 450,
-  "emails_sent": 411,
-  "quarantined": 39,
+  "emails_sent": 409,
+  "quarantined": 41,
   "orphan_letters": 3,
-  "injected_defects": 42,
-  "defects_caught": 42,
+  "injected_defects": 44,
+  "defects_caught": 44,
   "defects_leaked": 0,
   "false_positives": 0,
   "unsafe_emails": 0,
   "cross_branch_exposures": 0,
   "bounced": 7,
-  "delivered": 404
+  "delivered": 402
  },
- "machine_seconds_avg": 12.4,
+ "machine_seconds_avg": 12.8,
  "as_is_min": 600.0,
  "to_be_min": 20.2,
  "batches": [
   {
    "batch_id": "2026-08",
    "customers": 150,
-   "emails_sent": 138,
-   "quarantined": 12,
+   "emails_sent": 135,
+   "quarantined": 15,
    "maker": "dina.maker",
    "checker": "sari.supervisor"
   },
   {
    "batch_id": "2026-09",
    "customers": 150,
-   "emails_sent": 136,
-   "quarantined": 14,
+   "emails_sent": 138,
+   "quarantined": 12,
    "maker": "rizky.maker",
    "checker": "budi.supervisor"
   },
   {
    "batch_id": "2026-10",
    "customers": 150,
-   "emails_sent": 137,
-   "quarantined": 13,
+   "emails_sent": 136,
+   "quarantined": 14,
    "maker": "dina.maker",
    "checker": "sari.supervisor"
   }
@@ -60,7 +60,7 @@
   },
   {
    "id": "DP-04",
-   "n": 6,
+   "n": 7,
    "sev": "CRITICAL"
   },
   {
@@ -70,7 +70,7 @@
   },
   {
    "id": "DP-06",
-   "n": 7,
+   "n": 8,
    "sev": "CRITICAL"
   },
   {
@@ -108,7 +108,7 @@
   ],
   "values": [
    [
-    78,
+    82,
     0,
     0,
     0,
@@ -117,7 +117,7 @@
    ],
    [
     0,
-    79,
+    53,
     0,
     0,
     0,
@@ -126,7 +126,7 @@
    [
     0,
     0,
-    77,
+    68,
     0,
     0,
     0
@@ -135,7 +135,7 @@
     0,
     0,
     0,
-    64,
+    65,
     0,
     0
    ],
@@ -144,7 +144,7 @@
     0,
     0,
     0,
-    50,
+    67,
     0
    ],
    [
@@ -153,7 +153,7 @@
     0,
     0,
     0,
-    63
+    74
    ]
   ]
  }

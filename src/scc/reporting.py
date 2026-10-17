@@ -17,6 +17,7 @@ import pandas as pd
 from . import CONTROL_NAMES, DATA_DIR, LOG_DIR, OUTPUT_DIR, REPORT_DIR, audit, settings
 from .letters import extract_text, read_fields
 from .mailer import content_has_nik
+from .pii import find_niks, is_valid_nik
 from .pipeline import _dob_password, batch_dir, list_batches, load_state
 
 # Reference data-viz palette (light surface)
@@ -111,7 +112,6 @@ def evaluate_controls(batch_id: str) -> dict:
 def scan_outputs_for_pii() -> list[str]:
     """DP-11: logs and reports must never contain a raw NIK, full customer email or birth date."""
     customers = pd.read_csv(DATA_DIR / "customers_master.csv", dtype=str)
-    niks = set(customers["nik"])
     emails = set(customers["email"].str.lower())
     dobs = {_dob_password(d) for d in customers["dob"]} | set(customers["dob"])
     targets = [LOG_DIR / "audit_log.jsonl"]
@@ -127,8 +127,8 @@ def scan_outputs_for_pii() -> list[str]:
         else:
             text = t.read_text(encoding="utf-8", errors="ignore")
         low = text.lower()
-        if any(n in text for n in niks):
-            hits.append(f"{t.name}: raw NIK")
+        if any(is_valid_nik(n) for n in find_niks(text)):
+            hits.append(f"{t.name}: unmasked NIK")
         if any(e in low for e in emails):
             hits.append(f"{t.name}: full customer email")
         if any(d in text for d in dobs if len(d) >= 8):

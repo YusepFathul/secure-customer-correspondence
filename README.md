@@ -17,8 +17,10 @@ This project redesigns that process so it is **faster, leak-proof by design, and
 
 > All data is **synthetic** (a fictional insurer, "Nusantara Life"). No real customer, employer or
 > production data is used. Every email address — customers, branches, sender — uses the reserved
-> `.example` domain (RFC 2606), e.g. `budi.wijaya123@gmail.example`, so nothing can ever reach a real
-> person. Every letter is watermarked **EXAMPLE**, and emails are written to a local outbox, not sent.
+> `.example` domain (RFC 2606), e.g. `customer.0001@gmail.example`, so nothing can ever reach a real
+> person. Names, NIK and addresses are generated and stored **already masked** (`Budi W*****`,
+> `3273********0002`, `Jl. M****** No. **`), so the repository holds no full personal value at all.
+> Every letter is watermarked **EXAMPLE**, and emails are written to a local outbox, not sent.
 
 ---
 
@@ -72,9 +74,9 @@ errors) and **delivery monitoring** (bounces routed to the branch for follow-up)
 | | |
 |---|---|
 | Customers in scope | 450 (3 monthly batches) |
-| Emails sent | 411 |
-| Held before sending | 39 customers + 3 orphan letters |
-| Injected defects caught | **42 / 42** |
+| Emails sent | 409 |
+| Held before sending | 41 customers + 3 orphan letters |
+| Injected defects caught | **44 / 44** |
 | Defects that reached a customer | **0** |
 | False positives | 0 |
 | Unsafe emails in outbox (independent re-check) | **0** |

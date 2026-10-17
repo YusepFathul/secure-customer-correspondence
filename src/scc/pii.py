@@ -14,6 +14,8 @@ PROVINCE_CODES = {
 }
 
 NIK_RE = re.compile(r"(?<!\d)(\d{16})(?!\d)")
+# A NIK in full (16 digits) or in its masked form (4 digits + 8 '*' or 'x' + 4 digits)
+NIK_LIKE_RE = re.compile(r"(?<![\dxX*])(\d{16}|\d{4}[xX*]{8}\d{4})(?![\dxX*])")
 POLICY_RE = re.compile(r"(?<!\d)(\d{10})(?!\d)")
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
@@ -44,6 +46,18 @@ def mask_nik(nik: str) -> str:
     return f"{nik[:4]}{'*' * 8}{nik[-4:]}"
 
 
+def mask_name(name: str) -> str:
+    """'Budi Wijaya' -> 'Budi W*****': first name kept, later names reduced to an initial."""
+    parts = str(name).split()
+    return " ".join([parts[0]] + [p[0] + "*" * (len(p) - 1) for p in parts[1:]])
+
+
+def mask_street(street: str) -> str:
+    """'Jl. Merdeka' -> 'Jl. M******'."""
+    prefix, _, rest = str(street).partition(" ")
+    return f"{prefix} {rest[0]}{'*' * (len(rest) - 1)}" if rest else "*" * len(prefix)
+
+
 def mask_email(email: str) -> str:
     email = str(email).strip()
     if "@" not in email:
@@ -65,6 +79,11 @@ def redact_niks(text: str) -> str:
 def find_niks(text: str) -> list[str]:
     """Any 16-digit run is treated as a potential NIK (sensitive either way)."""
     return NIK_RE.findall(text or "")
+
+
+def find_nik_like(text: str) -> list[str]:
+    """Full or masked NIK patterns, e.g. inside a file name (DP-10)."""
+    return NIK_LIKE_RE.findall(text or "")
 
 
 def policy_candidates(text: str) -> list[str]:

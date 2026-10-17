@@ -16,12 +16,12 @@ from scc.letters import render_letter  # noqa: E402
 BATCH = "2099-01"
 
 CUSTOMERS = [
-    # policy, name, nik, dob, email, branch
-    ("7700000001", "Andi Santoso", "3171010101800001", "1980-01-01", "andi.santoso@gmail.example", "JKT"),
-    ("7700000002", "Budi Wijaya", "3273024502850002", "1985-02-05", "budi.wijaya@yahoo.example", "BDG"),
-    ("7700000003", "Citra Lestari", "3578034303900003", "1990-03-03", "citra.lestari@outlook.example", "SBY"),
-    ("7700000004", "Dewi Kusuma", "3273044404880004", "1988-04-04", "dewi.kusuma@gmail.example", "BDG"),
-    ("7700000005", "Eko Pratama", "1271050505750005", "1975-05-05", "eko.pratama@gmail.example", "MDN"),
+    # policy, name, NIK, dob, email, branch - masked exactly as the generator stores them
+    ("7700000001", "Andi S******", "3171********0001", "1980-01-01", "customer.0001@gmail.example", "JKT"),
+    ("7700000002", "Budi W*****", "3273********0002", "1985-02-05", "customer.0002@yahoo.example", "BDG"),
+    ("7700000003", "Citra L******", "3578********0003", "1990-03-03", "customer.0003@outlook.example", "SBY"),
+    ("7700000004", "Dewi K*****", "3273********0004", "1988-04-04", "customer.0004@gmail.example", "BDG"),
+    ("7700000005", "Eko P******", "1271********0005", "1975-05-05", "customer.0005@gmail.example", "MDN"),
 ]
 BRANCHES = [("JKT", "Jakarta Head Office"), ("BDG", "Bandung"), ("SBY", "Surabaya"), ("MDN", "Medan")]
 
@@ -29,7 +29,7 @@ BRANCHES = [("JKT", "Jakarta Head Office"), ("BDG", "Bandung"), ("SBY", "Surabay
 def payload(c, letter_type="MATURITY"):
     return {
         "letter_type": letter_type, "ref_no": f"NL/TST/{c[0][-4:]}", "letter_date": "05 January 2099",
-        "name": c[1], "policy_no": c[0], "nik": c[2], "address": "Jl. Test No. 1",
+        "name": c[1], "policy_no": c[0], "nik": c[2], "address": "Jl. T*** No. **",
         "branch_name": dict(BRANCHES)[c[5]], "due_date": "28 January 2099", "amount": "1.000.000",
         "account_masked": "****1234",
     }
@@ -49,7 +49,7 @@ def env(tmp_path, monkeypatch):
     ldir = data / "batches" / BATCH / "letters"
     ldir.mkdir(parents=True)
     pd.DataFrame(CUSTOMERS, columns=["policy_no", "name", "nik", "dob", "email", "branch_code"]).assign(
-        address="Jl. Test No. 1").to_csv(data / "customers_master.csv", index=False)
+        address="Jl. T*** No. **").to_csv(data / "customers_master.csv", index=False)
     pd.DataFrame([(c, n, f"branch.{c.lower()}@nusantaralife.example") for c, n in BRANCHES],
                  columns=["branch_code", "branch_name", "branch_email"]).to_csv(
         data / "branches_master.csv", index=False)

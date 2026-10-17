@@ -59,11 +59,11 @@ def test_ambiguous_file_name_holds_both_customers(env):
 
 def test_recipient_and_branch_mistakes(env):
     send = env.send_list.copy()
-    send.loc[0, "email"] = "andi.old@gmail.example"                                   # stale email
+    send.loc[0, "email"] = "customer.0001.old@gmail.example"                                   # stale email
     send.loc[1, "branch_code"] = "SBY"                                             # wrong branch
     send.loc[2, "cc_override"] = "sby.staff@gmail.example"                             # manual external CC
-    send.loc[3, "email"] = "dewi.kusuma@gmail.example; someone.else@gmail.example"         # two recipients
-    send.loc[4, "email"] = "eko.pratama@gmial.example"                                 # domain typo
+    send.loc[3, "email"] = "customer.0004@gmail.example; customer.0099@gmail.example"         # two recipients
+    send.loc[4, "email"] = "customer.0005@gmial.example"                                 # domain typo
     env.save_send(send)
     results, _ = run(env)
     c = env.customers
@@ -82,6 +82,6 @@ def test_branch_cc_always_comes_from_master(env):
 
 def test_nik_in_file_name_is_held(env):
     c1 = env.customers[0]
-    (env.letters / f"MATURITY_{c1[0]}_209901.pdf").rename(env.letters / f"MATURITY_{c1[0]}_{c1[2]}.pdf")
+    (env.letters / f"MATURITY_{c1[0]}_209901.pdf").rename(env.letters / f"MATURITY_{c1[0]}_NIK{c1[2].replace('*', 'x')}.pdf")
     results, _ = run(env)
     assert "DP-10" in controls(results[c1[0]])

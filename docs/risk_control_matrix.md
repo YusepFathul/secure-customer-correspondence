@@ -27,6 +27,6 @@ Rating: Likelihood (L) and Impact (I) on 1–5; inherent risk = L × I, before c
 ## Control testing
 
 Every batch is tested against deliberately injected defects (`data/ground_truth_defects.csv`).
-Result across Aug–Oct 2026 (synthetic): **42 of 42 defects caught, 0 reached a customer, 0 false positives**.
+Result across Aug–Oct 2026 (synthetic): **44 of 44 defects caught, 0 reached a customer, 0 false positives**.
 The outbox is then re-verified independently (`reporting.verify_outbox`): each attachment must open with
 the *To* recipient's own password and contain only that recipient's data.

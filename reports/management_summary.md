@@ -4,24 +4,24 @@ Period: 2026-08 to 2026-10 (synthetic data)
 
 ## Headline
 
-- 450 customers in scope; 411 letters sent, 39 held before sending.
+- 450 customers in scope; 409 letters sent, 41 held before sending.
 - Unsafe emails sent: **0**. Cross-branch exposures: **0**.
-- Control test: 42 of 42 injected defects caught; 0 reached a customer.
+- Control test: 44 of 44 injected defects caught; 0 reached a customer.
 - 7 bounced emails routed to branches for follow-up.
 
 ## Most frequent exceptions
 
-- DP-06 Customer email matches master data and has no domain typo: 7 documents held
+- DP-06 Customer email matches master data and has no domain typo: 8 documents held
+- DP-04 Letter content (policy, name, NIK) matches the recipient: 7 documents held
 - DP-07 Branch CC resolved from branch master and allowlisted: 6 documents held
-- DP-03 File name points to exactly one policy: 6 documents held
 
 ## Batch detail
 
 | Batch | Customers | Sent | Held | Quarantine rate | Maker | Checker |
 |---|---|---|---|---|---|---|
-| 2026-08 | 150 | 138 | 12 | 8.0% | dina.maker | sari.supervisor |
-| 2026-09 | 150 | 136 | 14 | 9.3% | rizky.maker | budi.supervisor |
-| 2026-10 | 150 | 137 | 13 | 8.7% | dina.maker | sari.supervisor |
+| 2026-08 | 150 | 135 | 15 | 10.0% | dina.maker | sari.supervisor |
+| 2026-09 | 150 | 138 | 12 | 8.0% | rizky.maker | budi.supervisor |
+| 2026-10 | 150 | 136 | 14 | 9.3% | dina.maker | sari.supervisor |
 
 ## Recommendations
 

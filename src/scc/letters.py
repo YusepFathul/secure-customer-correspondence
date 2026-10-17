@@ -33,7 +33,7 @@ BODY = {
 FIELD_PATTERNS = {
     "policy_no": re.compile(r"Policy Number\s*:\s*(\d{10})"),
     "name": re.compile(r"Policyholder Name\s*:\s*(.+)"),
-    "nik": re.compile(r"NIK\s*:\s*(\d{16})"),
+    "nik": re.compile(r"NIK\s*:\s*(\d{4}\*{8}\d{4}|\d{16})"),
 }
 
 
@@ -95,7 +95,7 @@ def render_letter(path: Path, letter: dict) -> None:
     c.drawString(x, y, "Customer Correspondence Team")
 
     c.setFont("Helvetica", 7)
-    c.drawString(x, 15 * mm, "EXAMPLE ONLY - all names, NIK, numbers, addresses and emails are synthetic.")
+    c.drawString(x, 15 * mm, "EXAMPLE ONLY - synthetic data; name, NIK and address are shown masked.")
     c.showPage()
     c.save()
 

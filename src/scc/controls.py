@@ -16,11 +16,10 @@ from . import CONTROL_NAMES, settings
 from .letters import extract_text, read_fields
 from .pii import (
     domain_typo,
-    find_niks,
+    find_nik_like,
     is_single_valid_email,
     mask_email,
     mask_nik,
-    normalize_name,
     policy_candidates,
     redact_niks,
 )
@@ -131,13 +130,13 @@ def validate_batch(send_list: pd.DataFrame, customers: pd.DataFrame,
             fields = read_fields(extract_text(Path(doc["path"])))
             if fields["policy_no"] != pol:
                 f.append(Finding("DP-04", f"Letter shows policy {fields['policy_no']} instead of {pol}"))
-            if normalize_name(fields["name"] or "") != normalize_name(cust["name"]):
+            if (fields["name"] or "").strip().upper() != str(cust["name"]).strip().upper():
                 f.append(Finding("DP-04", "Policyholder name in letter does not match recipient"))
             if fields["nik"] != cust["nik"]:
-                shown = mask_nik(fields["nik"]) if fields["nik"] else "none"
+                shown = mask_nik(fields["nik"]) if fields["nik"] else "none"  # already masked; masking again is a no-op
                 f.append(Finding("DP-04", f"NIK in letter ({shown}) does not belong to recipient"))
-            if find_niks(doc["file"]):
-                f.append(Finding("DP-10", "File name contains a 16-digit NIK"))
+            if find_nik_like(doc["file"]):
+                f.append(Finding("DP-10", "File name contains a NIK"))
 
         # --- DP-08 / DP-06: exactly one valid recipient, equal to master
         raw_email = str(row["email"]).strip()

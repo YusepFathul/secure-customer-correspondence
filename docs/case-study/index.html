@@ -125,8 +125,8 @@ footer{padding:40px 0 64px;font-size:14px;color:var(--slate)}
     <div class="stats">
       <div class="stat"><b>~30x</b><span>less effort per 150-letter batch</span></div>
       <div class="stat"><b>0</b><span>letters sent to the wrong person</span></div>
-      <div class="stat"><b>42/42</b><span>injected defects caught</span></div>
-      <div class="stat"><b>411/411</b><span>sent emails independently verified</span></div>
+      <div class="stat"><b>44/44</b><span>injected defects caught</span></div>
+      <div class="stat"><b>409/409</b><span>sent emails independently verified</span></div>
     </div>
   </div>
 </header>
@@ -186,7 +186,7 @@ footer{padding:40px 0 64px;font-size:14px;color:var(--slate)}
     <li class="gov"><strong>Verify</strong>Outbox re-check and report</li>
   </ol>
   <div class="legend"><span class="dp"><i></i>Data protection</span><span class="gov"><i></i>Governance</span><span class="pi"><i></i>Process improvement</span></div>
-  <div class="example"><b>Example.</b> Budi, Bandung branch: To budi@…, CC branch.bdg@… only. The attachment contains Budi's own policy and NIK and opens only with his date of birth. Surabaya never receives anything about Budi. The branch address is never typed — it is looked up from branch master data using Budi's own branch code.</div>
+  <div class="example"><b>Example.</b> Budi, Bandung branch: To customer.0002@gmail.example, CC branch.bdg@nusantaralife.example only. The attachment contains Budi's own policy and masked NIK and opens only with his date of birth. Surabaya never receives anything about Budi. The branch address is never typed — it is looked up from branch master data using Budi's own branch code.</div>
 </section>
 
 <section>
@@ -202,18 +202,18 @@ footer{padding:40px 0 64px;font-size:14px;color:var(--slate)}
 
 <section>
   <div class="num">06 · EVIDENCE</div>
-  <h2>42 injected defects, 42 caught, none sent</h2>
+  <h2>44 injected defects, 44 caught, none sent</h2>
   <p>To prove the controls rather than claim them, I injected realistic mistakes into every monthly batch — swapped letters, a foreign NIK, stale and mistyped emails, a wrong branch, a manual external CC, two recipients in one cell, a NIK in a file name, and missing, duplicate, ambiguous and orphan files — and kept a ground-truth list.</p>
   <div class="bars" role="img" aria-label="Documents held by control, August to October 2026">
-    <div class="bar"><span>DP-01 Letter missing</span><div class="track"><div class="fill" style="width:71%"></div></div><span class="v">5</span></div>
-    <div class="bar"><span>DP-02 Duplicate letter</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
-    <div class="bar"><span>DP-03 Ambiguous file name</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="v">6</span></div>
-    <div class="bar"><span>DP-04 Content not recipient's</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="v">6</span></div>
-    <div class="bar"><span>DP-05 Orphan letter</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
-    <div class="bar"><span>DP-06 Email differs / typo</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">7</span></div>
-    <div class="bar"><span>DP-07 Wrong or manual CC</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="v">6</span></div>
-    <div class="bar"><span>DP-08 Multiple recipients</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
-    <div class="bar"><span>DP-10 NIK in file name</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-01 Letter missing</span><div class="track"><div class="fill" style="width:62%"></div></div><span class="v">5</span></div>
+    <div class="bar"><span>DP-02 Duplicate letter</span><div class="track"><div class="fill" style="width:38%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-03 Ambiguous file name</span><div class="track"><div class="fill" style="width:75%"></div></div><span class="v">6</span></div>
+    <div class="bar"><span>DP-04 Content not recipient's</span><div class="track"><div class="fill" style="width:88%"></div></div><span class="v">7</span></div>
+    <div class="bar"><span>DP-05 Orphan letter</span><div class="track"><div class="fill" style="width:38%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-06 Email differs / typo</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">8</span></div>
+    <div class="bar"><span>DP-07 Wrong or manual CC</span><div class="track"><div class="fill" style="width:75%"></div></div><span class="v">6</span></div>
+    <div class="bar"><span>DP-08 Multiple recipients</span><div class="track"><div class="fill" style="width:38%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-10 NIK in file name</span><div class="track"><div class="fill" style="width:38%"></div></div><span class="v">3</span></div>
   </div>
   <p class="caption">Documents held by each control across three monthly batches (450 customers). 0 clean letters were held by mistake.</p>
 
@@ -224,21 +224,21 @@ footer{padding:40px 0 64px;font-size:14px;color:var(--slate)}
       <table class="matrix" aria-label="Leakage matrix">
         <thead><tr><th>CC \ Data</th><th>JKT</th><th>BDG</th><th>SBY</th><th>MDN</th><th>MKS</th><th>YGY</th></tr></thead>
         <tbody>
-          <tr><th>JKT</th><td class="d">78</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-          <tr><th>BDG</th><td>0</td><td class="d">79</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-          <tr><th>SBY</th><td>0</td><td>0</td><td class="d">77</td><td>0</td><td>0</td><td>0</td></tr>
-          <tr><th>MDN</th><td>0</td><td>0</td><td>0</td><td class="d">64</td><td>0</td><td>0</td></tr>
-          <tr><th>MKS</th><td>0</td><td>0</td><td>0</td><td>0</td><td class="d">50</td><td>0</td></tr>
-          <tr><th>YGY</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="d">63</td></tr>
+          <tr><th>JKT</th><td class="d">82</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><th>BDG</th><td>0</td><td class="d">53</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><th>SBY</th><td>0</td><td>0</td><td class="d">68</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><th>MDN</th><td>0</td><td>0</td><td>0</td><td class="d">65</td><td>0</td><td>0</td></tr>
+          <tr><th>MKS</th><td>0</td><td>0</td><td>0</td><td>0</td><td class="d">67</td><td>0</td></tr>
+          <tr><th>YGY</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="d">74</td></tr>
         </tbody>
       </table>
       <p class="caption">Rows: branch mailbox that received the CC. Columns: branch that owns the data. Anything off the diagonal would be a leak.</p>
     </div>
     <ul class="checks">
-      <li><b>411/411</b> attachments open only with the recipient's own password</li>
-      <li><b>411/411</b> attachments hold only the recipient's own policy and NIK</li>
-      <li><b>411/411</b> CCs go only to the customer's own branch</li>
-      <li><b>411/411</b> emails without NIK in subject or body</li>
+      <li><b>409/409</b> attachments open only with the recipient's own password</li>
+      <li><b>409/409</b> attachments hold only the recipient's own policy and NIK</li>
+      <li><b>409/409</b> CCs go only to the customer's own branch</li>
+      <li><b>409/409</b> emails without NIK in subject or body</li>
       <li><b>0</b> raw NIK, emails or birth dates in logs and reports</li>
     </ul>
   </div>
