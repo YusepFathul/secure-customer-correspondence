@@ -1,0 +1,58 @@
+{
+  "company": {
+    "name": "Nusantara Life (fictional insurer)",
+    "short_name": "Nusantara Life",
+    "domain": "nusantaralife.example"
+  },
+  "sender": {
+    "official_mailbox": "customer.notification@nusantaralife.example",
+    "display_name": "Nusantara Life Customer Notification",
+    "transport": "outbox",
+    "smtp_env": {
+      "host": "SCC_SMTP_HOST",
+      "port": "SCC_SMTP_PORT",
+      "user": "SCC_SMTP_USER",
+      "password": "SCC_SMTP_PASSWORD"
+    }
+  },
+  "dry_run_mailbox": "qa.notification@nusantaralife.example",
+  "branch_cc_mode": "cc",
+  "_branch_cc_mode_options": "cc = branch is CC'd on the same email (current practice); notice_only = branch receives a separate notice without the attachment (stricter data minimization)",
+  "branch_email_allowlist_domain": "nusantaralife.example",
+  "pdf_password_rule": "Customer date of birth in DDMMYYYY",
+  "owner_password_env": "SCC_PDF_OWNER_PASSWORD",
+  "users": {
+    "makers": ["dina.maker", "rizky.maker"],
+    "checkers": ["sari.supervisor", "budi.supervisor"]
+  },
+  "kill_switch": {
+    "max_quarantine_rate": 0.20,
+    "max_integrity_failures": 0,
+    "max_consecutive_transport_errors": 3
+  },
+  "as_is_baseline": {
+    "minutes_per_letter": 4.0,
+    "to_be_review_minutes_per_batch": 20.0,
+    "_note": "ASSUMPTIONS for the simulation: manual match + attach + address + send per letter (As-Is), and maker review + checker approval per batch (To-Be). Replace with your own time study."
+  },
+  "letter_types": {
+    "MATURITY": "Policy Maturity Notice",
+    "BENEFIT_PAYMENT": "Benefit Payment Confirmation",
+    "REINSTATEMENT": "Policy Reinstatement Notice"
+  },
+  "severity": {
+    "DP-01": "HIGH",
+    "DP-02": "HIGH",
+    "DP-03": "HIGH",
+    "DP-04": "CRITICAL",
+    "DP-05": "HIGH",
+    "DP-06": "CRITICAL",
+    "DP-07": "CRITICAL",
+    "DP-08": "CRITICAL",
+    "DP-09": "CRITICAL",
+    "DP-10": "HIGH",
+    "DP-11": "HIGH",
+    "DP-12": "CRITICAL",
+    "DP-13": "CRITICAL"
+  }
+}

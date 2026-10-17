@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secure Customer Correspondence — Case Study</title>
+<meta name="description" content="Case study: redesigning customer letter delivery by email with built-in data protection controls and maker-checker governance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --surface:#f3f5f8; --surface-2:#e9edf2; --ink:#14202e; --ink-2:#4b5a6b; --line:#dfe4ea;
+  --navy:#14324f; --teal:#17808f; --green:#1f8a5b; --amber:#9a5b00; --amber-bg:#fbf1e0; --green-bg:#dcf1e6;
+  --slate:#5b7088; --muted-cell:#a3adb8; --pi:#14324f;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1620; --surface:#17212d; --surface-2:#1f2b39; --ink:#e8edf3; --ink-2:#a5b3c2; --line:#2a3746;
+    --navy:#9cc0e6; --teal:#4cb8c7; --green:#4cc38a; --amber:#f0a83a; --amber-bg:#2e2414; --green-bg:#173528;
+    --slate:#8ea2b8; --muted-cell:#5b6a7a; --pi:#4f7fb3; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1620; --surface:#17212d; --surface-2:#1f2b39; --ink:#e8edf3; --ink-2:#a5b3c2; --line:#2a3746;
+  --navy:#9cc0e6; --teal:#4cb8c7; --green:#4cc38a; --amber:#f0a83a; --amber-bg:#2e2414; --green-bg:#173528;
+  --slate:#8ea2b8; --muted-cell:#5b6a7a; --pi:#4f7fb3; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:0 16px}
+header.hero{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);font-weight:600;margin:0 0 14px}
+h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;color:var(--navy);line-height:1.2;margin:0}
+h1{font-size:clamp(32px,6vw,48px);font-weight:700}
+.lede{font-size:19px;color:var(--ink-2);max-width:720px;margin:18px 0 28px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;font-size:14px}
+.meta dt{color:var(--slate);font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.meta dd{margin:0;color:var(--ink)}
+a{color:var(--teal);text-underline-offset:3px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:40px 0 8px}
+.stat{background:var(--surface);border-radius:12px;padding:18px}
+.stat b{display:block;font-family:"Source Serif 4",Georgia,serif;font-size:36px;color:var(--green);line-height:1.1}
+.stat span{font-size:14px;color:var(--ink-2)}
+section{padding:48px 0;border-bottom:1px solid var(--line)}
+.num{font-size:13px;color:var(--slate);font-weight:600;letter-spacing:.06em}
+h2{font-size:clamp(24px,4vw,30px);margin:6px 0 16px;font-weight:700}
+h3{font-size:19px;font-weight:600;margin:0 0 6px}
+p{margin:0 0 14px;max-width:760px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px}
+.step{border:1.5px solid var(--navy);border-radius:10px;padding:12px;font-size:14px;text-align:center;min-height:86px;display:flex;flex-direction:column;justify-content:center}
+.step small{color:var(--slate);font-weight:600}
+.risk{background:var(--amber-bg);color:var(--amber);border-radius:10px;padding:10px 12px;font-size:14px;text-align:center;margin-top:8px}
+.risk small{display:block;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.card{background:var(--surface);border-radius:12px;padding:20px}
+.card ul{margin:8px 0 0;padding-left:0;list-style:none;font-size:15px}
+.card li{padding:3px 0}
+.card li code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:var(--teal);margin-right:8px}
+.flow{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(7,1fr);gap:8px;counter-reset:s}
+.flow li{counter-increment:s;text-align:center;font-size:13px;color:var(--ink-2)}
+.flow li::before{content:counter(s);display:flex;align-items:center;justify-content:center;width:40px;height:40px;margin:0 auto 8px;border-radius:50%;color:#fff;font-weight:600;font-size:16px;background:var(--c)}
+.flow li strong{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+.dp{--c:#17808f}.gov{--c:#5b7088}.pi{--c:var(--pi)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--slate);margin-top:16px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--c)}
+.example{background:var(--surface);border-radius:12px;padding:18px 20px;margin-top:20px;font-size:15px}
+.example b{color:var(--teal)}
+.bars{margin-top:20px}
+.bar{display:grid;grid-template-columns:210px 1fr 28px;align-items:center;gap:10px;font-size:14px;margin:6px 0}
+.bar .track{height:16px;background:transparent}
+.bar .fill{height:100%;background:var(--teal);border-radius:0 4px 4px 0}
+.bar .v{color:var(--ink);font-variant-numeric:tabular-nums}
+.matrix{border-collapse:separate;border-spacing:3px;font-size:14px;font-variant-numeric:tabular-nums;margin-top:8px}
+.matrix th{color:var(--slate);font-weight:600;padding:6px 8px}
+.matrix td{width:52px;height:38px;text-align:center;background:var(--surface);color:var(--muted-cell);border-radius:4px}
+.matrix td.d{background:var(--green-bg);color:var(--ink);font-weight:600}
+.caption{font-size:13px;color:var(--slate);margin-top:8px}
+.checks{list-style:none;padding:0;margin:0}
+.checks li{padding:8px 0 8px 30px;position:relative;font-size:15px}
+.checks li::before{content:"";position:absolute;left:0;top:11px;width:18px;height:18px;border-radius:50%;background:var(--green)}
+.checks li::after{content:"";position:absolute;left:6px;top:15px;width:6px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.checks b{color:var(--green)}
+table.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:20px}
+table.cmp th,table.cmp td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp thead th{color:var(--slate);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+table.cmp td:nth-child(2){color:var(--amber)}
+table.cmp td:nth-child(3){color:var(--green);font-weight:500}
+.effort{margin-top:24px}
+.effort .row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;font-size:14px;margin:8px 0}
+.effort .b{height:22px;border-radius:0 4px 4px 0;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-size:13px;font-weight:600}
+.next{counter-reset:n;list-style:none;padding:0;margin:16px 0 0}
+.next li{counter-increment:n;position:relative;padding:4px 0 14px 46px}
+.next li::before{content:counter(n);position:absolute;left:0;top:2px;width:32px;height:32px;border-radius:50%;background:var(--navy);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips span{background:var(--surface-2);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--ink-2)}
+footer{padding:40px 0 64px;font-size:14px;color:var(--slate)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.scroll{overflow-x:auto}
+@media (max-width:760px){
+  .stats{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
+  .grid2,.two{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .bar{grid-template-columns:140px 1fr 24px;font-size:13px}
+  .effort .row{grid-template-columns:110px 1fr}
+  header.hero{padding-top:48px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Case study · Process improvement · Data protection · Governance</p>
+    <h1>Secure Customer Correspondence</h1>
+    <p class="lede">Redesigning how an insurer emails letters that contain customers' NIK, so the process is faster, cannot send one customer's data to someone else, and leaves evidence for every decision.</p>
+    <dl class="meta">
+      <div><dt>Role</dt><dd>Process design, Python automation, control design</dd></div>
+      <div><dt>Built with</dt><dd>Python, pandas, PyMuPDF, Streamlit</dd></div>
+      <div><dt>Data</dt><dd>Fully synthetic, fictional insurer</dd></div>
+      <div><dt>Links</dt><dd><a href="https://github.com/YusepFathul/secure-customer-correspondence">GitHub repository</a></dd></div>
+    </dl>
+    <div class="stats">
+      <div class="stat"><b>~30x</b><span>less effort per 150-letter batch</span></div>
+      <div class="stat"><b>0</b><span>letters sent to the wrong person</span></div>
+      <div class="stat"><b>42/42</b><span>injected defects caught</span></div>
+      <div class="stat"><b>411/411</b><span>sent emails independently verified</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<section>
+  <div class="num">01 · CONTEXT</div>
+  <h2>Letters with personal data go out every month</h2>
+  <p>Insurers send maturity notices, benefit payment confirmations and reinstatement notices by email. Each letter carries the policyholder's name, policy number and <strong>NIK</strong>, and every email copies the customer's servicing branch.</p>
+  <p>So there are two ways to get it wrong: the letter reaches the wrong customer, or the copy reaches the wrong branch. Under UU PDP (Law No. 27/2022), either one is a personal data protection failure that must be reported within 3 × 24 hours.</p>
+</section>
+
+<section>
+  <div class="num">02 · PROBLEM</div>
+  <h2>Every manual step is a chance for data to leak</h2>
+  <p>In the manual process a person matches each PDF to the list, copies the address, types the branch CC, attaches and sends — about four minutes per letter, roughly ten hours per batch. There is no second check before sending and no record afterwards.</p>
+  <div class="steps">
+    <div><div class="step"><small>1</small>Match PDF to the list by eye</div><div class="risk"><small>Risk</small>Wrong customer's letter</div></div>
+    <div><div class="step"><small>2</small>Copy the customer email</div><div class="risk"><small>Risk</small>Old or mistyped address</div></div>
+    <div><div class="step"><small>3</small>Type the branch CC</div><div class="risk"><small>Risk</small>Another branch sees data</div></div>
+    <div><div class="step"><small>4</small>Attach the PDF</div><div class="risk"><small>Risk</small>NIK travels unprotected</div></div>
+    <div><div class="step"><small>5</small>Send one by one</div><div class="risk"><small>Risk</small>No record of who sent what</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="num">03 · INSIGHT</div>
+  <h2>Leaks follow predictable failure modes</h2>
+  <p>Because each manual step fails in a known way, each failure can be blocked by a specific, automated control. I designed thirteen, grouped by the question they answer.</p>
+  <div class="grid2">
+    <div class="card"><h3>Right document</h3><ul>
+      <li><code>DP-01</code>Every customer has a letter</li><li><code>DP-02</code>No duplicate letters</li>
+      <li><code>DP-03</code>File name points to one policy</li><li><code>DP-04</code>Policy, name and NIK match the recipient</li>
+      <li><code>DP-05</code>No orphan letters</li></ul></div>
+    <div class="card"><h3>Right recipient</h3><ul>
+      <li><code>DP-06</code>Email equals master data, no typo</li><li><code>DP-07</code>Branch CC taken from branch master</li>
+      <li><code>DP-08</code>One customer per email, no BCC</li></ul></div>
+    <div class="card"><h3>Data protected</h3><ul>
+      <li><code>DP-09</code>Letter locked with the customer's password</li><li><code>DP-10</code>No NIK in file name, subject or body</li>
+      <li><code>DP-11</code>Logs and reports hold masked data only</li></ul></div>
+    <div class="card"><h3>Safe delivery</h3><ul>
+      <li><code>DP-12</code>Official mailbox only, no credentials in code</li><li><code>DP-13</code>File identical to the approved version</li>
+      <li><code>STOP</code>Kill switch halts the batch on anomalies</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="num">04 · SOLUTION</div>
+  <h2>Validate, lock, and require two people before anything is sent</h2>
+  <ol class="flow">
+    <li class="dp"><strong>Validate</strong>13 controls per letter</li>
+    <li class="dp"><strong>Quarantine</strong>Failures never sent</li>
+    <li class="dp"><strong>Lock</strong>Password = date of birth</li>
+    <li class="gov"><strong>Maker</strong>Reviews and submits</li>
+    <li class="gov"><strong>Checker</strong>A different person approves</li>
+    <li class="pi"><strong>Send</strong>Dry run, then 1 email per customer</li>
+    <li class="gov"><strong>Verify</strong>Outbox re-check and report</li>
+  </ol>
+  <div class="legend"><span class="dp"><i></i>Data protection</span><span class="gov"><i></i>Governance</span><span class="pi"><i></i>Process improvement</span></div>
+  <div class="example"><b>Example.</b> Budi, Bandung branch: To budi@…, CC branch.bdg@… only. The attachment contains Budi's own policy and NIK and opens only with his date of birth. Surabaya never receives anything about Budi. The branch address is never typed — it is looked up from branch master data using Budi's own branch code.</div>
+</section>
+
+<section>
+  <div class="num">05 · GOVERNANCE</div>
+  <h2>Enforced by the system, not by good intentions</h2>
+  <div class="grid2">
+    <div class="card"><h3>Maker-checker</h3><p>The maker submits; a different checker approves. The batch is fingerprinted at submission, so any later change forces a resubmission.</p></div>
+    <div class="card"><h3>Kill switch</h3><p>The batch halts if more than 20% is quarantined, if any file changes after approval, or if sending fails repeatedly.</p></div>
+    <div class="card"><h3>Audit trail</h3><p>Every validation, approval and email is logged with personal data masked. Every run scans logs and reports for raw NIK, email addresses and birth dates.</p></div>
+    <div class="card"><h3>Documents</h3><p>Risk &amp; control matrix (16 risks), RACI and SOP, and an incident playbook with the UU PDP 3 × 24 hour notification.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="num">06 · EVIDENCE</div>
+  <h2>42 injected defects, 42 caught, none sent</h2>
+  <p>To prove the controls rather than claim them, I injected realistic mistakes into every monthly batch — swapped letters, a foreign NIK, stale and mistyped emails, a wrong branch, a manual external CC, two recipients in one cell, a NIK in a file name, and missing, duplicate, ambiguous and orphan files — and kept a ground-truth list.</p>
+  <div class="bars" role="img" aria-label="Documents held by control, August to October 2026">
+    <div class="bar"><span>DP-01 Letter missing</span><div class="track"><div class="fill" style="width:71%"></div></div><span class="v">5</span></div>
+    <div class="bar"><span>DP-02 Duplicate letter</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-03 Ambiguous file name</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="v">6</span></div>
+    <div class="bar"><span>DP-04 Content not recipient's</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="v">6</span></div>
+    <div class="bar"><span>DP-05 Orphan letter</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-06 Email differs / typo</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">7</span></div>
+    <div class="bar"><span>DP-07 Wrong or manual CC</span><div class="track"><div class="fill" style="width:86%"></div></div><span class="v">6</span></div>
+    <div class="bar"><span>DP-08 Multiple recipients</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
+    <div class="bar"><span>DP-10 NIK in file name</span><div class="track"><div class="fill" style="width:43%"></div></div><span class="v">3</span></div>
+  </div>
+  <p class="caption">Documents held by each control across three monthly batches (450 customers). 0 clean letters were held by mistake.</p>
+
+  <h3 style="margin-top:36px">Then I checked the outbox without trusting the pipeline</h3>
+  <p>Every sent email was re-opened independently: the attachment must open with the <em>To</em> recipient's own password and contain only that recipient's policy and NIK.</p>
+  <div class="two">
+    <div class="scroll">
+      <table class="matrix" aria-label="Leakage matrix">
+        <thead><tr><th>CC \ Data</th><th>JKT</th><th>BDG</th><th>SBY</th><th>MDN</th><th>MKS</th><th>YGY</th></tr></thead>
+        <tbody>
+          <tr><th>JKT</th><td class="d">78</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><th>BDG</th><td>0</td><td class="d">79</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><th>SBY</th><td>0</td><td>0</td><td class="d">77</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><th>MDN</th><td>0</td><td>0</td><td>0</td><td class="d">64</td><td>0</td><td>0</td></tr>
+          <tr><th>MKS</th><td>0</td><td>0</td><td>0</td><td>0</td><td class="d">50</td><td>0</td></tr>
+          <tr><th>YGY</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="d">63</td></tr>
+        </tbody>
+      </table>
+      <p class="caption">Rows: branch mailbox that received the CC. Columns: branch that owns the data. Anything off the diagonal would be a leak.</p>
+    </div>
+    <ul class="checks">
+      <li><b>411/411</b> attachments open only with the recipient's own password</li>
+      <li><b>411/411</b> attachments hold only the recipient's own policy and NIK</li>
+      <li><b>411/411</b> CCs go only to the customer's own branch</li>
+      <li><b>411/411</b> emails without NIK in subject or body</li>
+      <li><b>0</b> raw NIK, emails or birth dates in logs and reports</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="num">07 · IMPACT</div>
+  <h2>From a working day to twenty minutes — with controls that did not exist before</h2>
+  <div class="effort" role="img" aria-label="Effort per 150-letter batch: about 600 minutes As-Is versus about 20 minutes To-Be">
+    <div class="row"><span>As-Is (assumed)</span><div class="b" style="width:100%;background:var(--slate)">~10 h</div></div>
+    <div class="row"><span>To-Be</span><div class="b" style="width:3.4%;min-width:72px;background:var(--green)">~20 min</div></div>
+  </div>
+  <table class="cmp">
+    <thead><tr><th></th><th>As-Is</th><th>To-Be</th></tr></thead>
+    <tbody>
+      <tr><td>Effort per batch</td><td>~10 hours</td><td>~20 minutes</td></tr>
+      <tr><td>Processing</td><td>Manual</td><td>~13 seconds</td></tr>
+      <tr><td>Wrong-recipient protection</td><td>Staff attention</td><td>13 automated controls</td></tr>
+      <tr><td>NIK protection</td><td>None</td><td>Password-locked letter</td></tr>
+      <tr><td>Review before sending</td><td>Ad hoc</td><td>Maker-checker</td></tr>
+      <tr><td>Evidence</td><td>None</td><td>Audit trail and monthly report</td></tr>
+    </tbody>
+  </table>
+  <p class="caption">As-Is assumes 4 minutes per letter; To-Be assumes 20 minutes of maker review and checker approval plus measured processing time. Both are explicit assumptions to be replaced by a time study.</p>
+</section>
+
+<section>
+  <div class="num">08 · NEXT</div>
+  <h2>Fix the exceptions at their source</h2>
+  <p>The monthly control report does not only count exceptions; it points to where they come from.</p>
+  <ol class="next">
+    <li><strong>Build the send list directly from master data.</strong> Stale and mistyped emails were the top exception (DP-06).</li>
+    <li><strong>Remove the manual CC column from the template.</strong> Branch mailboxes come from branch master data only (DP-07).</li>
+    <li><strong>Enforce file naming at letter generation.</strong> Letter type + policy + period, never the NIK (DP-03, DP-10).</li>
+  </ol>
+  <p>Then pilot one letter type in one branch, replace the assumed timings with a time study, move SMTP credentials into a secrets vault, and consider an SMS one-time password instead of the date of birth.</p>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="chips"><span>Python</span><span>pandas</span><span>PyMuPDF</span><span>ReportLab</span><span>Streamlit</span><span>pytest</span><span>Risk &amp; control matrix</span><span>RACI / SOP</span><span>UU PDP</span></div>
+    <p style="margin-top:20px">All data in this project is synthetic. The design reflects real operational patterns in customer correspondence, rebuilt from scratch without any employer or customer data.</p>
+    <p>Yusep Fathul Anwar · <a href="https://www.linkedin.com/in/yusepfathulanwar">LinkedIn</a> · <a href="https://github.com/YusepFathul">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>
